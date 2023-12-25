@@ -7,8 +7,8 @@ const Hello = (props) => {
 const App = () => {
   const friends = ['Pietro', 'Peter']
   const person = [
-    { name: "Pietro", age: 4},
-    { name: "Peter", age: 10}
+    { name: "Pietro", age: 4 },
+    { name: "Peter", age: 10 }
   ]
   const name = 'Peter'
   const age = 10
@@ -17,7 +17,7 @@ const App = () => {
       <p>Greetings</p>
       <Hello name={name} age={age} />
       <Hello name='Daisy' age={20} />
-      <Hello name='Test' age={30+10} />
+      <Hello name='Test' age={30 + 10} />
       <p>{person[0].name}</p>
       <p>{friends}</p>
     </>
