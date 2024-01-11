@@ -11,15 +11,22 @@ const Part = (info) => {
 }
 const Content = (info) => {
   info = info.info
-  return (
-    <>
-      <Part info={info}/>
-    </>
+  return(
+    info.map(part => {
+    return (
+      <>
+        <Part info={part} />
+      </>
+    )
+  })
   )
 }
 const Total = (exercises) => {
+  let total = 0
+  exercises.amount.forEach(value => total += value.exercises)
+
   return (
-    <p>Number of exercises {exercises.amount}</p>
+    <p>Number of exercises {total}</p>
   )
 }
 
@@ -43,10 +50,8 @@ const App = () => {
   return (
     <div>
       <Header title={course} />
-      <Content info={part[0]}/>
-      <Content info={part[1]} />
-      <Content info={part[2]} />
-      <Total amount={part[0].exercises + part[1].exercises + part[2].exercises}/>
+      <Content info={part}/>
+      <Total amount={part}/>
     </div>
   )
 }
