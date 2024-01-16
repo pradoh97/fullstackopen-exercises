@@ -34,7 +34,7 @@ const Display = ({counter}) => {
 
 const Button = ({onClick, text}) =>{
   return(
-    <button onClick={onClick}>{text}</button>
+    <button onClick={onClick}>a{text}</button>
   )
 }
 
