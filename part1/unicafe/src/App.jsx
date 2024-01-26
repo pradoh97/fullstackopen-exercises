@@ -30,21 +30,32 @@ const App = () => {
   }
 
   const getAverageFeedback = (good, bad, total) => ((good - bad) / total || 0 )
-  
+  if(statistics.total){
+    return (
+      <>
+        <Header text="Give feedback"/>
+        <Button text="Good" onClick={() => submitFeedback("good")}/>
+        <Button text="Neutral" onClick={() => submitFeedback("neutral")} />
+        <Button text="Bad" onClick={() => submitFeedback("bad")} />
+        <Header text="Statistics"/>
+        <Statistics value={statistics.good}/>
+        <Statistics value={statistics.neutral}/>
+        <Statistics value={statistics.bad}/>
+        <Statistics value={statistics.total}/>
+        <Statistics value={statistics.average}/>
+        <Statistics value={statistics.positive} percentage={"%"} />
+      </>
+    )
+  }
   return (
-    <>
-      <Header text="Give feedback"/>
-      <Button text="Good" onClick={() => submitFeedback("good")}/>
+      <>
+      <Header text="Give feedback" />
+      <Button text="Good" onClick={() => submitFeedback("good")} />
       <Button text="Neutral" onClick={() => submitFeedback("neutral")} />
       <Button text="Bad" onClick={() => submitFeedback("bad")} />
-      <Header text="Statistics"/>
-      <Statistics value={statistics.good}/>
-      <Statistics value={statistics.neutral}/>
-      <Statistics value={statistics.bad}/>
-      <Statistics value={statistics.total}/>
-      <Statistics value={statistics.average}/>
-      <Statistics value={statistics.positive} percentage={"%"} />
-    </>
+      <Header text="Statistics" />
+      <p>No feedback given</p>
+      </>
   )
 }
 
