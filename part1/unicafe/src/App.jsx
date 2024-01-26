@@ -7,14 +7,27 @@ const App = () => {
   const [statistics, setFeedback] = useState({
     good: 0,
     neutral: 0,
-    bad: 0
+    bad: 0,
+    total: 0,
+    average: 0,
+    positive: 0
   })
 
   const submitFeedback = (feedback) => {
-    if (feedback === "good") setFeedback({ ...statistics, good: statistics.good + 1 })
-    else if (feedback === "neutral") setFeedback({ ...statistics, neutral: statistics.neutral + 1 })
-    else setFeedback({ ...statistics, bad: statistics.bad + 1 })
+    
+    if (feedback === 'good') statistics.good += 1
+    else if (feedback === 'neutral') statistics.neutral += 1
+    else statistics.bad += 1
+
+    statistics.average = getAverageFeedback(statistics)
+    statistics.total = getTotalFeedback(statistics)
+    statistics.positive = +((statistics.good / getTotalFeedback(statistics)) * 100).toFixed(2)
+    
+    setFeedback({ ...statistics})
   }
+
+  const getTotalFeedback = ({good, neutral, bad} = statistics) => (good + neutral + bad)
+  const getAverageFeedback = ({ good, neutral, bad } = statistics) => ((good - bad) / getTotalFeedback() || 0 )
   
   return (
     <>
@@ -26,6 +39,9 @@ const App = () => {
       <p>{statistics.good}</p>
       <p>{statistics.neutral}</p>
       <p>{statistics.bad}</p>
+      <p>{statistics.total}</p>
+      <p>{statistics.average}</p>
+      <p>{statistics.positive}%</p>
     </>
   )
 }
