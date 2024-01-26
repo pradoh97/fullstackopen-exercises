@@ -1,7 +1,18 @@
 import { useState } from 'react'
+const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
+const Votes = ({quantity}) => {
+  let message = "Has " + quantity + " "
+  
+  if(quantity === 1){
+    message += "vote."
+  } else {
+    message += "votes."
+  }
+
+  return message
+}
 
 function App() {
-  const [anecdote, setAnecdote] = useState("")
 
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -14,12 +25,32 @@ function App() {
     'The only way to go fast, is to go well.'
   ]
 
-  const pickRandomQuote = () => anecdotes[Math.floor(Math.random() * anecdotes.length)]
+  const [anecdote, setAnecdote] = useState(0)
+
+  const [votes, setVote] = useState(Array(anecdotes.length).fill(0))
+  
+
+  const pickRandomAnecdote = () => Math.floor(Math.random() * anecdotes.length)
+  
+  const setQuote = () => {
+    let anecdoteNumber = pickRandomAnecdote()
+    setAnecdote(anecdoteNumber)
+  }
+
+  const setAnecdoteVotes = anecdoteNumber => {
+    let votesNew = [...votes]
+    votesNew[anecdoteNumber] += 1
+
+    setVote(votesNew)
+  }
 
   return (
     <>
-      <Button text="Quote of the day" onClick={() => setAnecdote(pickRandomQuote())} />
-      <p>{anecdote}</p>
+      <Button text="Quote of the day" onClick={() => setQuote()} />
+      <Button text="Upvote" onClick={() => setAnecdoteVotes(anecdote)} />
+
+      <p>{anecdotes[anecdote]}</p>
+      <Votes quantity={votes[anecdote]}/>
     </>
   )
 }
