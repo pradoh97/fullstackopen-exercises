@@ -26,9 +26,8 @@ function App() {
   ]
 
   const [anecdote, setAnecdote] = useState(0)
-
   const [votes, setVote] = useState(Array(anecdotes.length).fill(0))
-  
+  const [topVotedAnecdote, setTopVotedAnecdote] = useState(0)
 
   const pickRandomAnecdote = () => Math.floor(Math.random() * anecdotes.length)
   
@@ -41,16 +40,18 @@ function App() {
     let votesNew = [...votes]
     votesNew[anecdoteNumber] += 1
 
+    setTopVotedAnecdote((votesNew.indexOf(votesNew.reduce((a,b) => Math.max(a,b), -Infinity))))
     setVote(votesNew)
   }
-
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <Button text="Quote of the day" onClick={() => setQuote()} />
       <Button text="Upvote" onClick={() => setAnecdoteVotes(anecdote)} />
-
       <p>{anecdotes[anecdote]}</p>
       <Votes quantity={votes[anecdote]}/>
+      <h1>Top voted anecdote so far</h1>
+      <p>{anecdotes[topVotedAnecdote]}</p>
     </>
   )
 }
