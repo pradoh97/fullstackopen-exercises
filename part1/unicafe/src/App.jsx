@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const Header = ({text}) => <h1>{text}</h1>
 const Button = ({text, onClick}) => <button onClick={onClick}>{text}</button>
-const Statistics = ({text, value, percentage = ""}) => <p>{text}:   {value}{percentage}</p>
+const Statistics = ({text, value, percentage = ""}) => <tr><td>{text}:   {value}{percentage}</td></tr>
 
 const App = () => {
   const [statistics, setFeedback] = useState({
@@ -38,12 +38,16 @@ const App = () => {
         <Button text="Neutral" onClick={() => submitFeedback("neutral")} />
         <Button text="Bad" onClick={() => submitFeedback("bad")} />
         <Header text="Statistics"/>
-        <Statistics text="good" value={statistics.good}/>
-        <Statistics text="neutral" value={statistics.neutral} />
-        <Statistics text="bad" value={statistics.bad}/>
-        <Statistics text="total" value={statistics.total}/>
-        <Statistics text="average" value={statistics.average}/>
-        <Statistics text="positive" value={statistics.positive} percentage={"%"} />
+        <table>
+          <tbody>
+            <Statistics text="good" value={statistics.good}/>
+            <Statistics text="neutral" value={statistics.neutral} />
+            <Statistics text="bad" value={statistics.bad}/>
+            <Statistics text="total" value={statistics.total}/>
+            <Statistics text="average" value={statistics.average}/>
+            <Statistics text="positive" value={statistics.positive} percentage={"%"} />
+          </tbody>
+        </table>
       </>
     )
   }
