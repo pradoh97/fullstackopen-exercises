@@ -9,8 +9,11 @@ const App = () => {
     }
   ])
 
+  const [displayList, setDisplayList] = useState(person)
+
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
+  const [nameFilter, setNameFilter] = useState('')
   
   function addContact(contact){
     let personExists = person.filter(person => (person.name == contact.name)).length
@@ -26,9 +29,17 @@ const App = () => {
     }
   }
 
+  function filterByName(filter){
+    const filteredList = person.filter(contact => contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim()))
+    
+    filter ? setDisplayList(filteredList) : setDisplayList(person)
+    setNameFilter(filter)
+  }
   return (
     <div>
       <h2>Phonebook</h2>
+        filter: <input type="text" value={nameFilter} onChange={(event) => filterByName(event.target.value)}/>
+      <h2>Add new contact</h2>
       <form onSubmit={(event) => {
         event.preventDefault()
         addContact({name: newName, phone: newPhone})
@@ -44,7 +55,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Phonebook person={person}/>
+      <Phonebook person={displayList}/>
     </div>
   )
 }
