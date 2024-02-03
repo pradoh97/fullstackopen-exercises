@@ -21,18 +21,20 @@ const App = () => {
     if(personExists){
       window.alert(`${contact.name} is already in your agenda`)
     } else if(contact.name !== '' && contact.phone !== ''){
-      setPersons(person.concat({name: contact.name.trim(), phone: contact.phone}))
+      const newContact = {name: contact.name.trim(), phone: contact.phone}
+      setPersons(person.concat(newContact))
       setNewName('')
       setNewPhone('')
+      filterByName(nameFilter, person.concat(newContact))
     } else {
       contact.name ? console.log("Please provide a phone number") : console.log("please provide a name")
     }
   }
 
-  function filterByName(filter){
-    const filteredList = person.filter(contact => contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim()))
+  function filterByName(filter, newPerson = person){
+    const filteredList = newPerson.filter(contact => contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim()))
     
-    filter ? setDisplayList(filteredList) : setDisplayList(person)
+    filter ? setDisplayList(filteredList) : setDisplayList(newPerson)
     setNameFilter(filter)
   }
   return (
