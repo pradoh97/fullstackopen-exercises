@@ -1,6 +1,5 @@
 const Total = ({quantities}) => {
-    let total = 0
-    quantities.forEach(value => total += value)
+    const total = quantities.reduce((total, value) => total + value)
 
     return <p>Number of exercises {total}</p>
 }

@@ -3,7 +3,6 @@ import Total from './Total'
 import Content from './Content'
 
 const Course = ({course}) =>{
-  
   const quantites=course.parts.map(part => part.exercises)
 
   return (
