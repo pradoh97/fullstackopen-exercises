@@ -13,8 +13,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={(event) => {
         event.preventDefault()
-        if(newName !== ''){
-          setPersons(person.concat({name: newName}))
+        let personExists = person.filter(person => (person.name == newName)).length
+        if(personExists){
+          window.alert(`${newName} is already in your agenda`)
+        } else if(newName !== ''){
+          setPersons(person.concat({name: newName.trim()}))
           setNewName('')
         } else {
           console.log("No name supplied")
