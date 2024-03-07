@@ -1,15 +1,22 @@
-import { useState } from 'react'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
 import AddContact from './components/AddContact'
 
 const App = () => {
-  const [person, setPersons] = useState([
-    {
-      name: "Arto Hellas",
-      phone: "+51795465"
-    }
-  ])
+  const [person, setPersons] = useState([])
+
+  const hook = () => {
+    axios
+      .get('http://dev-hernan-test.duckdns.org:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+        setDisplayList(response.data)
+      })
+  }
+
+  useEffect(hook, [])
 
   const [displayList, setDisplayList] = useState(person)
   
