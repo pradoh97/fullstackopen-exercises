@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Note from './components/Note'
-import noteService from '.services/notes'
+import noteService from './services/notes'
+
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
   
   const hook = () => {
-    axios
-      .get('http://dev-hernan-test.duckdns.org:3001/notes')
-      .then(response => {
-        setNotes(response.data)
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
       })
   }
 
@@ -22,11 +23,17 @@ const App = () => {
   const handleNoteChange = event => setNewNote(event.target.value)
 
   const toggleImportanceOf = (id) => {
-    const url = `http://dev-hernan-test.duckdns.org:3001/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = {...note, important: !note.important}
 
-    axios.put(url, changedNote).then(response => { setNotes(notes.map(n => n.id !== id ? n : response.data))})
+    noteService
+      .update(note.id, changedNote)
+      .then(returnedNote => { 
+        setNotes(notes.map(n => n.id !== id ? n : returnedNote))
+      })
+      .catch(error => {
+        alert(`the note ${note.content} was already deleted from the server`)
+      })
   }
 
   const addNote = (event) => {
@@ -36,10 +43,10 @@ const App = () => {
       important: Math.random() < 0.5
     }
 
-    axios
-      .post('http://dev-hernan-test.duckdns.org:3001/notes', noteObject)
-      .then(response => {
-        setNotes(notes.concat(response.data))
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
 
