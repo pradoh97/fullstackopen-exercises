@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import phoneService from '../services/phones'
 
-const NewContact = ({setPersons, filterByName, nameFilter, person}) => {
+const NewContact = ({person, addContact}) => {
   
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')

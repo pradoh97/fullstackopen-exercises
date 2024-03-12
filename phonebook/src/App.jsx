@@ -1,26 +1,24 @@
 import { useState, useEffect } from 'react'
-import Phonebook from './components/Phonebook'
 import Contact from './components/Contact'
 import Filter from './components/Filter'
-import AddContact from './components/AddContact'
+import NewContact from './components/NewContact'
 import phoneService from './services/phones'
 
 const App = () => {
   const [person, setPersons] = useState([])
+  const [displayList, setDisplayList] = useState(person)
+  const [nameFilter, setNameFilter] = useState('')
 
   const getContacts = () => {
     phoneService.getAll()
       .then(response => {
         setPersons(response.data)
-        setDisplayList(response.data)
+        filterByName(nameFilter, response.data)
       })
   }
 
   useEffect(getContacts, [])
 
-  const [displayList, setDisplayList] = useState(person)
-  
-  const [nameFilter, setNameFilter] = useState('')
 
   const deleteContact = ({id, name}) => {
     const deletionConfirmed = window.confirm(`Delete ${name} ?`)
@@ -33,7 +31,11 @@ const App = () => {
     }
   }
 
-  function filterByName(filter, newPerson = person){
+  const addContact = person => {
+    
+  }
+
+  const filterByName = (filter = "", newPerson = person) => {
     const filteredList = newPerson.filter(contact => contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim()))
     
     filter ? setDisplayList(filteredList) : setDisplayList(newPerson)
@@ -44,7 +46,8 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter nameFilter={nameFilter} filterByName={filterByName}/>
-      <AddContact filterByName={filterByName} nameFilter={nameFilter} person={person} setPersons={setPersons}/>
+      <NewContact person={person} addContact={ () => addContact(person)}/>
+      {/* <AddContact filterByName={filterByName} nameFilter={nameFilter} person={person} setPersons={setPersons}/> */}
       <h2>Numbers</h2>
       <ol>
         {displayList.map( contact => 
