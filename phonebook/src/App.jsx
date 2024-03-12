@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
