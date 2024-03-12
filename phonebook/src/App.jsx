@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react'
 import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
 import AddContact from './components/AddContact'
+import phoneService from './services/phones'
 
 const App = () => {
   const [person, setPersons] = useState([])
 
   const hook = () => {
-    axios
-      .get('http://dev-hernan-test.duckdns.org:3001/persons')
+    phoneService.getAll()
       .then(response => {
         setPersons(response.data)
         setDisplayList(response.data)

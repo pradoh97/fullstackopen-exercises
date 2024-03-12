@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import phoneService from '../services/phones'
 
 const AddContact = ({setPersons, filterByName, nameFilter, person}) => {
   
@@ -10,12 +11,13 @@ const AddContact = ({setPersons, filterByName, nameFilter, person}) => {
 
     if(personExists){
       window.alert(`${contact.name} is already in your agenda`)
-    } else if(contact.name !== '' && contact.phone !== ''){
-      const newContact = {name: contact.name.trim(), phone: contact.phone}
+    } else if(contact.name !== '' && contact.number !== ''){
+      const newContact = {name: contact.name.trim(), number: contact.number}
       setPersons(person.concat(newContact))
       setNewName('')
       setNewPhone('')
       filterByName(nameFilter, person.concat(newContact))
+      phoneService.addContact(newContact)
     } else {
       contact.name ? console.log("Please provide a phone number") : console.log("please provide a name")
     }
@@ -26,7 +28,7 @@ const AddContact = ({setPersons, filterByName, nameFilter, person}) => {
     <h2>Add new contact</h2>
     <form onSubmit={(event) => {
       event.preventDefault()
-      addContact({name: newName, phone: newPhone})
+      addContact({name: newName, number: newPhone})
     }}>
       <div>
         name: <input value={newName} onChange={(event) => setNewName(event.target.value)}/>
