@@ -1,28 +1,45 @@
 import { useState } from 'react'
 import phoneService from '../services/phones'
 
-const NewContact = ({person, addContact}) => {
-  
+const NewContact = ({contactList, setContacts, nameFilter, filterByName}) => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
+    
+  const addContact = newContact => {
+    
+    const contactExists = contactList.filter(contact => (contact.name === newContact.name)).length
+    
+    let updateContact = false
+    
+    if(contactExists) updateContact = window.confirm(`${newContact.name} is already in your agenda, replace old number with new one?`)
+    
+    if(newContact.name !== '' && newContact.number !== ''){
+      newContact.name = newContact.name.trim()
+      let updatedContactList = contactList
+      
+      if(updateContact){
+        updatedContactList = contactList.map(contact => contact.name === newContact.name ? newContact : contact)
+        
+        phoneService
+          .updateContact(newContact)
+          .then(response => setContacts(updatedContactList))
+      }
+      if(!contactExists) {
+        phoneService.addContact(newContact)
+        updatedContactList = contactList.concat(newContact)
+      }
 
-  function addContact(contact){
-    let personExists = person.filter(person => (person.name == contact.name)).length
+      if(contactExists && updateContact || !contactExists){
+        setNewName('')
+        setNewPhone('')
+        setContacts(updatedContactList)
+        filterByName(nameFilter, updatedContactList)
+      }
 
-    if(personExists){
-      window.alert(`${contact.name} is already in your agenda`)
-    } else if(contact.name !== '' && contact.number !== ''){
-      const newContact = {name: contact.name.trim(), number: contact.number}
-      setPersons(person.concat(newContact))
-      setNewName('')
-      setNewPhone('')
-      filterByName(nameFilter, person.concat(newContact))
-      phoneService.addContact(newContact)
     } else {
-      contact.name ? console.log("Please provide a phone number") : console.log("please provide a name")
+        newContact.name ? console.log("Please provide a phone number") : console.log("please provide a name")
     }
   }
-
   return(
     <>
     <h2>Add new contact</h2>

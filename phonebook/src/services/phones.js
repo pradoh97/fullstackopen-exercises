@@ -6,6 +6,8 @@ const deleteContact = id => axios.delete(`${url}/${id}`)
 
 const getAll = () => axios.get(url)
 
-const addContact = newContact => axios.post(url, newContact)
+const addContact = newContact => axios.post(url, {id: newContact.name, ...newContact})
 
-export default{ getAll, addContact, deleteContact}
+const updateContact = (updatedContact) => axios.put(`${url}/${updatedContact.name}`, updatedContact)
+
+export default{ getAll, addContact, deleteContact, updateContact}

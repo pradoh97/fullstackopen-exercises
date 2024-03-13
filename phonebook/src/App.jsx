@@ -5,14 +5,14 @@ import NewContact from './components/NewContact'
 import phoneService from './services/phones'
 
 const App = () => {
-  const [person, setPersons] = useState([])
-  const [displayList, setDisplayList] = useState(person)
+  const [contactList, setContacts] = useState([])
+  const [displayList, setDisplayList] = useState(contactList)
   const [nameFilter, setNameFilter] = useState('')
 
   const getContacts = () => {
     phoneService.getAll()
       .then(response => {
-        setPersons(response.data)
+        setContacts(response.data)
         filterByName(nameFilter, response.data)
       })
   }
@@ -31,12 +31,8 @@ const App = () => {
     }
   }
 
-  const addContact = person => {
-    
-  }
-
-  const filterByName = (filter = "", newPerson = person) => {
-    const filteredList = newPerson.filter(contact => contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim()))
+  const filterByName = (filter = "", newPerson = contactList) => {
+    const filteredList = newPerson.filter(contactList => contactList.name.toLowerCase().trim().includes(filter.toLowerCase().trim()))
     
     filter ? setDisplayList(filteredList) : setDisplayList(newPerson)
     setNameFilter(filter)
@@ -46,12 +42,11 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter nameFilter={nameFilter} filterByName={filterByName}/>
-      <NewContact person={person} addContact={ () => addContact(person)}/>
-      {/* <AddContact filterByName={filterByName} nameFilter={nameFilter} person={person} setPersons={setPersons}/> */}
+      <NewContact contactList={contactList} setContacts={setContacts} nameFilter={nameFilter} filterByName={filterByName}/>
       <h2>Numbers</h2>
       <ol>
-        {displayList.map( contact => 
-          <Contact key={contact.id} name={contact.name} number={contact.number} deleteContact={ () => deleteContact(contact)}/>
+        {displayList.map( contactList => 
+          <Contact key={contactList.name} name={contactList.name} number={contactList.number} deleteContact={ () => deleteContact(contactList)}/>
         )}
       </ol>
     </div>
