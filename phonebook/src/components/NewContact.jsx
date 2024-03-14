@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import phoneService from '../services/phones'
 
-const NewContact = ({contactList, setContacts, nameFilter, filterByName}) => {
+const NewContact = ({contactList, setContacts, nameFilter, filterByName, setNotificationMessage}) => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
     
@@ -22,10 +22,16 @@ const NewContact = ({contactList, setContacts, nameFilter, filterByName}) => {
         
         phoneService
           .updateContact(newContact)
-          .then(response => setContacts(updatedContactList))
+          .then(response => {
+            setContacts(updatedContactList)
+          })
+          setNotificationMessage(`Updated ${newContact.name}'s phone number.`)
       }
       if(!contactExists) {
-        phoneService.addContact(newContact)
+        phoneService
+          .addContact(newContact)
+
+        setNotificationMessage(`Added ${newContact.name} to your contacts.`)
         updatedContactList = contactList.concat(newContact)
       }
 
@@ -39,6 +45,10 @@ const NewContact = ({contactList, setContacts, nameFilter, filterByName}) => {
     } else {
         newContact.name ? console.log("Please provide a phone number") : console.log("please provide a name")
     }
+
+    setTimeout(() => {
+      setNotificationMessage("")
+    }, 3000)
   }
   return(
     <>

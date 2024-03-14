@@ -3,11 +3,13 @@ import Contact from './components/Contact'
 import Filter from './components/Filter'
 import NewContact from './components/NewContact'
 import phoneService from './services/phones'
+import Notification from './components/Notification'
 
 const App = () => {
   const [contactList, setContacts] = useState([])
   const [displayList, setDisplayList] = useState(contactList)
   const [nameFilter, setNameFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState()
 
   const getContacts = () => {
     phoneService.getAll()
@@ -18,7 +20,6 @@ const App = () => {
   }
 
   useEffect(getContacts, [])
-
 
   const deleteContact = ({id, name}) => {
     const deletionConfirmed = window.confirm(`Delete ${name} ?`)
@@ -41,8 +42,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter nameFilter={nameFilter} filterByName={filterByName}/>
-      <NewContact contactList={contactList} setContacts={setContacts} nameFilter={nameFilter} filterByName={filterByName}/>
+      <NewContact contactList={contactList} setContacts={setContacts} nameFilter={nameFilter} filterByName={filterByName} setNotificationMessage={setNotificationMessage}/>
       <h2>Numbers</h2>
       <ol>
         {displayList.map( contactList => 
