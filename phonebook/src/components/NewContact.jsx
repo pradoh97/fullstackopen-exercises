@@ -25,13 +25,13 @@ const NewContact = ({contactList, setContacts, nameFilter, filterByName, setNoti
           .then(response => {
             setContacts(updatedContactList)
           })
-          setNotificationMessage(`Updated ${newContact.name}'s phone number.`)
+          setNotificationMessage(`Updated ${newContact.name}'s phone number`)
       }
       if(!contactExists) {
         phoneService
           .addContact(newContact)
 
-        setNotificationMessage(`Added ${newContact.name} to your contacts.`)
+        setNotificationMessage(`Added ${newContact.name} to your contacts`)
         updatedContactList = contactList.concat(newContact)
       }
 
