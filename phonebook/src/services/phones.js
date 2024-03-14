@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const url = 'http://dev-hernan-test.duckdns.org:3001/persons'
 
-const deleteContact = id => axios.delete(`${url}/${id}`)
+const deleteContact = name => axios.delete(`${url}/${name}`)
 
 const getAll = () => axios.get(url)
 

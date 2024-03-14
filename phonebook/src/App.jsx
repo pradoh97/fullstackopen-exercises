@@ -10,7 +10,6 @@ const App = () => {
   const [displayList, setDisplayList] = useState(contactList)
   const [nameFilter, setNameFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState()
-
   const getContacts = () => {
     phoneService.getAll()
       .then(response => {
@@ -21,11 +20,12 @@ const App = () => {
 
   useEffect(getContacts, [])
 
-  const deleteContact = ({id, name}) => {
+  const deleteContact = ({name}) => {
+    console.log(name)
     const deletionConfirmed = window.confirm(`Delete ${name} ?`)
     
     if(deletionConfirmed){
-      phoneService.deleteContact(id, name)
+      phoneService.deleteContact(name)
         .then(response => {
           getContacts()
         })
