@@ -29,6 +29,10 @@ const App = () => {
         .then(response => {
           getContacts()
         })
+        .catch(error => {
+          setNotificationMessage(`${name} was already deleted!`)
+          setNotificationStyle("error")
+        })
     }
   }
 
