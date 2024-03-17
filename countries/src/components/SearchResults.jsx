@@ -1,17 +1,15 @@
-import countriesService from '../services/countries'
-
 const toggleCountryInfo = (country) => {
     const countryElement = document.getElementById(country.name.common).querySelectorAll('div')[0]
     countryElement.style.display === "none" ? countryElement.style.display = "initial" : countryElement.style.display = "none"
 }
 
-const SearchResult = ({hidden, country}) => {
+const SearchResult = ({hidden=false, country}) => {
     const hiddenStyle = {
         display: "none"
     }
     return(
         
-        <div style={hidden ? hiddenStyle : ""}>
+        <div style={hidden ? hiddenStyle : {}}>
             <h1>{country.name.common}</h1>
             <p>Capital: {country.capital[0]}</p>
             <p>Area: {country.area}</p>
@@ -26,7 +24,7 @@ const SearchResult = ({hidden, country}) => {
 }
 const SearchResults = ({countryList}) => {
 
-    if(countryList.length > 10) return(<p>Too many matches, try adding more letters for the country name.</p>)
+    if(countryList.length > 10) return(<p>Ugh, there are too many countries called like that, try adding more letters for the country name.</p>)
 
     if(countryList.length == 1) {
         const country = countryList[0]

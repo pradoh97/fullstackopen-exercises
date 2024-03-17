@@ -16,6 +16,8 @@ const App = () => {
         const countryList = countryMatches.filter(country => country.name.common.toLowerCase().includes(countryName))
         setCountryList(countryList)
       })
+    } else {
+      setCountryList(null)
     }
   }
 
