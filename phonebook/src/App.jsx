@@ -10,6 +10,7 @@ const App = () => {
   const [displayList, setDisplayList] = useState(contactList)
   const [nameFilter, setNameFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState()
+  const [notificationStyle, setNotificationStyle] = useState()
   const getContacts = () => {
     phoneService.getAll()
       .then(response => {
@@ -21,7 +22,6 @@ const App = () => {
   useEffect(getContacts, [])
 
   const deleteContact = ({name}) => {
-    console.log(name)
     const deletionConfirmed = window.confirm(`Delete ${name} ?`)
     
     if(deletionConfirmed){
@@ -42,9 +42,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification style={notificationStyle} message={notificationMessage} />
       <Filter nameFilter={nameFilter} filterByName={filterByName}/>
-      <NewContact contactList={contactList} setContacts={setContacts} nameFilter={nameFilter} filterByName={filterByName} setNotificationMessage={setNotificationMessage}/>
+      <NewContact contactList={contactList} setContacts={setContacts} nameFilter={nameFilter} filterByName={filterByName} setNotificationMessage={setNotificationMessage} setNotificationStyle={setNotificationStyle}/>
       <h2>Numbers</h2>
       <ol>
         {displayList.map( contactList => 
