@@ -1,16 +1,47 @@
+import countries from '../services/countries.js'
 import countriesService from '../services/countries.js'
+import {useEffect, useState} from 'react'
 
 const toggleCountryInfo = (country) => {
     const countryElement = document.getElementById(country.name.common).querySelectorAll('div')[0]
-    countryElement.style.display === "none" ? countryElement.style.display = "initial" : countryElement.style.display = "none"
+    const toggleButton = countryElement.parentNode.querySelector("button")
+    if(countryElement.style.display === "none") {
+        toggleButton.innerText = "Hide"
+        countryElement.style.display = "initial"
+    } else {
+        toggleButton.innerText = "Show"
+        countryElement.style.display = "none"
+    }
+    
 }
 
 const SearchResult = ({hidden=false, country}) => {
+    const [temperature, setTemperature] = useState(null)
+    const [wind, setWind] = useState(null)
+    const [iconName, setIconName] = useState()
+    const [icon, setIcon] = useState(null)
 
     countriesService.getWeather(
         country.latlng[0], country.latlng[1]
     )
-    .then(response => console.log((response.data.main.temp - 273.5).toFixed(2)))
+    .then(response => {
+        const temperature = (response.data.main.temp - 273.15).toFixed(2)
+        setTemperature(temperature)
+        const wind = (response.data.wind.speed)
+        setWind(wind)
+        setIconName(response.data.weather[0].icon)
+    })
+    
+    const getWeatherIcon = () =>{
+        countriesService.getWeatherIcon(iconName)
+        .then(response => {
+            const icon = response.config.url
+            setIcon(icon)
+        })
+    }
+    useEffect(getWeatherIcon, [iconName])
+
+
 
     const hiddenStyle = {
         display: "none"
@@ -26,6 +57,10 @@ const SearchResult = ({hidden=false, country}) => {
                 {Object.values(country.languages).map(language => <li key={language}>{language}</li>)}
             </ul>
             <img src={country.flags.png} alt={country.flag} />
+            <p>Icon name: {iconName}</p>
+            <img src={icon} />
+            <p>Temperature: {temperature}°C</p>
+            <p>Wind: {wind} m/s</p>
         </div>
     )
 }
