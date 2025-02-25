@@ -11,6 +11,7 @@ const App = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState()
   const [notificationStyle, setNotificationStyle] = useState()
+  
   const getContacts = () => {
     phoneService.getAll()
       .then(response => {

@@ -1,8 +1,13 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+const morgan = require('morgan')
 
 app.use(express.json())
+
+const test = morgan.token("test", (req, res) => { return JSON.stringify(req['body']) })
+const logger = morgan(':method :url :status :res[content-length] - :response-time ms :test')
+app.use(logger)
 app.use(express.static(path.join(__dirname, "public")))
 
 const generateId = () =>{
