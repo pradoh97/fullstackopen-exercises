@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://dev-hernan-test.duckdns.org:3001/persons'
+const url = 'http://localhost:3001/api/persons'
 
 const deleteContact = name => axios.delete(`${url}/${name}`)
 
