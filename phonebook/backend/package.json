@@ -10,7 +10,7 @@
     "test": "node mongo.js $ATLAS_USR $ATLAS_PWD",
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "build": "cp index.js ../build && cp package.json ../build"
+    "build": "vite build && cp -r dist ../backend"
   },
   "dependencies": {
     "cors": "^2.8.5",

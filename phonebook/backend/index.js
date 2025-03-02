@@ -3,20 +3,24 @@ const express = require("express")
 const cors = require("cors")
 const app = express()
 
-app.use(cors())
 app.use(express.static('dist'))
+
+
+const errorHandler = (error, req, res, next) => {
+    
+    if(error.name == "CastError"){
+        return res.status(400).send({error: "Malformatted ID"})
+    } else if(error.name == "ValidationError"){
+        return res.status(431).json({error: error.message})
+    }
+    next(error)
+}
+
+app.use(cors())
 app.use(express.json())
 
 const unknownEndpoint = (req, res) =>{
     res.status(404).send({error: "Unknown endpoint"})
-}
-
-const errorHandler = (error, req, res, next) => {
-    console.log(error.message)
-
-    if(error.name == "CastError"){
-        return res.status(400).send({error: "Malformatted ID"})
-    }
 }
 
 app.get("/api/persons", (req, res) => {
@@ -32,7 +36,6 @@ app.get("/api/person/:name", (req, res) => {
 
 app.delete("/api/persons/:name", (req, res) => {
     let targetPersonName = req.params.name
-    console.log(targetPersonName)
     Person.find({name: targetPersonName})
     .then(personFound => {
         personFound.id = personFound[0]._id.toString()
@@ -49,9 +52,6 @@ app.post("/api/persons", (req, res, next) => {
 
     if (!newPerson){
         res.statusMessage = "Request content is missing."
-    }
-    if (!newPerson.name){
-        res.statusMessage = "Please, add the person's name."
     }
     if (!newPerson.number){
         res.statusMessage = "Please, add the person's number."

@@ -12,8 +12,19 @@ mongoose.connect(process.env.ATLAS_URL)
     })
 
 const phonebookSchema = mongoose.Schema({
-    name: String,
-    number: String
+    name: {
+        type: String,
+        minLength: 3,
+        required: true
+    },
+    number: {
+        type: String,
+        validate: {
+            validator: function(v){
+                return /\d{2,3}-\d+/.test(v);
+            }
+        }
+    }
 })
 
 phonebookSchema.set('toJSON', {
