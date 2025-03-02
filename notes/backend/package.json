@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "build": "cp index.js ../build"
+    "lint": "eslint ."
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -18,6 +18,11 @@
     "mongoose": "^8.10.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@stylistic/eslint-plugin-js": "^4.1.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
     "nodemon": "^3.1.9"
   }
 }
